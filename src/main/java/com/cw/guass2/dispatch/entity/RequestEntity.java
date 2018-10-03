@@ -1,10 +1,16 @@
 package com.cw.guass2.dispatch.entity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.common.base.Strings;
 
 /**
  * 请求实体类
@@ -25,10 +31,39 @@ public class RequestEntity implements Serializable{
 		status = "100";
 		requestMethod = request.getMethod();
 		url =  request.getRequestURI();
-		//header
 		params = request.getParameterMap();
-		//postBody
-		requestId = request.getRemoteAddr();
+		
+		//调用方地址优先选用X-Forwarded-For
+		if(Strings.isNullOrEmpty(request.getHeader("X-Forwarded-For"))){
+			requestIP = request.getRemoteAddr();
+		} else {
+			requestIP = request.getHeader("X-Forwarded-For");
+		}
+		
+		headers = new HashMap<>();
+		String tempHeaderName;
+		Enumeration<String> tempHeaderNames = request.getHeaderNames();
+		while(tempHeaderNames.hasMoreElements()){
+			tempHeaderName = tempHeaderNames.nextElement();
+			headers.put(tempHeaderName, request.getHeader(tempHeaderName));
+		}
+		
+		if(requestMethod.equals("POST")) {
+			postBody = ReadBody(request);
+		}
+		
+		// 注入参数
+		if(params.containsKey("sign")) {
+			sign = params.get("sign")[0];
+		}
+		
+		if(params.containsKey("identification")) {
+			identification = params.get("identification")[0];
+		}
+		
+		if(params.containsKey("async")) {
+			async = Boolean.valueOf(params.get("async")[0]);
+		}
 	}
 	
 	/******基本属性******/
@@ -311,6 +346,35 @@ public class RequestEntity implements Serializable{
 
 	public void setResponseHeaders(Map<String, String> responseHeaders) {
 		this.responseHeaders = responseHeaders;
+	}
+	
+	/**
+	 * 读取POSTBody
+	 * @param request
+	 * @return
+	 */
+	private static String ReadBody (HttpServletRequest request) {
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder("");
+		try {
+			br = request.getReader();
+			String str;
+			while ((str = br.readLine()) != null) {
+				sb.append(str);
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (null != br) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return sb.toString();
 	}
 
 }
