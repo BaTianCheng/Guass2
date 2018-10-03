@@ -44,12 +44,13 @@
   	  <artifactId>spring-boot-starter-web</artifactId>
   	</dependency>
   	
-  	<!-- 是否热部署 -->
+  	<!-- 是否热部署 
   	<dependency>
   	  <groupId>org.springframework.boot</groupId>
   	  <artifactId>spring-boot-devtools</artifactId>
   	  <option>false</option>
   	</dependency>
+  	-->
   	
     <dependency>
       <groupId>junit</groupId>
@@ -68,5 +69,24 @@
 	  <artifactId>guava</artifactId>
 	  <version>17.0</version>
 	</dependency>
+	
+	<!-- 日志组件 -->
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    </dependency>
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-core</artifactId>
+	    </dependency>
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-access</artifactId>
+	    </dependency>
+	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-classic</artifactId>
+	</dependency>
+	
   </dependencies>
 </project>

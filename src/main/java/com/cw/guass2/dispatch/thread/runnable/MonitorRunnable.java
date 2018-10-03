@@ -1,5 +1,8 @@
 package com.cw.guass2.dispatch.thread.runnable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cw.guass2.common.constant.ConfigConstants;
 import com.cw.guass2.dispatch.thread.service.ThreadPoolService;
 import com.cw.guass2.dispatch.thread.service.ThreadQueue;
@@ -10,6 +13,8 @@ import com.cw.guass2.dispatch.thread.service.ThreadQueue;
  * @author wicks
  */
 public class MonitorRunnable implements Runnable {
+	
+	public static Logger logger = LoggerFactory.getLogger(MonitorRunnable.class);
 
 	/**
 	 * 构造函数
@@ -18,6 +23,9 @@ public class MonitorRunnable implements Runnable {
 		super();
 	}
 
+	/**
+	 * 运行
+	 */
 	@Override
 	public void run() {
 		while(true) {
@@ -26,15 +34,14 @@ public class MonitorRunnable implements Runnable {
 				int freeThreadNum = ConfigConstants.THREADS_MAX_NUM - ThreadPoolService.getActiveCount();
 				int enqueueNum = freeThreadNum > ThreadQueue.getSize() ? ThreadQueue.getSize() : freeThreadNum;
 				while(enqueueNum > 0) {
-					//ThreadPoolService.execute(new RequsetRunnable());
+					ThreadPoolService.execute(ThreadQueue.poll());
 					enqueueNum--;
 				}
 			}
-
 			try {
 				Thread.sleep(ConfigConstants.MONITOR_INTERVAL);
-			} catch(InterruptedException e) {
-				e.printStackTrace();
+			} catch(Throwable throwable) {
+				logger.error(throwable.getMessage());
 			}
 		}
 

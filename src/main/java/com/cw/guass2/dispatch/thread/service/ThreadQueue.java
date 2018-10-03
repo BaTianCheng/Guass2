@@ -4,43 +4,43 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * 线程队列服务
+ * 
  * @author wicsks
- *
  */
 public class ThreadQueue {
 	
 	/**
 	 * 线程安全有序队列
 	 */
-	private static ConcurrentLinkedQueue<Object> queue;
-	private static ConcurrentLinkedQueue<Object> priorityQueue;
+	private static ConcurrentLinkedQueue<Runnable> queue;
+	private static ConcurrentLinkedQueue<Runnable> priorityQueue;
 
 	static {
-		queue = new ConcurrentLinkedQueue<Object>();
-		priorityQueue = new ConcurrentLinkedQueue<Object>();
+		queue = new ConcurrentLinkedQueue<Runnable>();
+		priorityQueue = new ConcurrentLinkedQueue<Runnable>();
 	}
 
 	/**
 	 * 入普通队列
 	 * @param obj
 	 */
-	public static void add(Object obj) {
-		queue.add(obj);
+	public static void add(Runnable runnable) {
+		queue.add(runnable);
 	}
 
 	/**
 	 * 入优先队列
 	 * @param obj
 	 */
-	public static void addPriority(Object obj) {
-		priorityQueue.add(obj);
+	public static void addPriority(Runnable runnable) {
+		priorityQueue.add(runnable);
 	}
 
 	/**
 	 * 出队
 	 * @return
 	 */
-	public static Object poll() {
+	public static Runnable poll() {
 		// 优先队列享有优先出队权利
 		if(priorityQueue.size() > 0) {
 			return priorityQueue.poll();

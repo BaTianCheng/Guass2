@@ -21,16 +21,16 @@ public class ThreadPoolService {
 
 	/**
 	 * 执行线程
-	 * 
 	 * @param runnable
 	 */
 	public static void execute(Runnable runnable) {
-		fixedThreadPool.execute(runnable);
+		if(runnable != null) {
+			fixedThreadPool.execute(runnable);
+		}
 	}
 
 	/**
 	 * 获取正在执行数
-	 * 
 	 * @return
 	 */
 	public static int getActiveCount() {
