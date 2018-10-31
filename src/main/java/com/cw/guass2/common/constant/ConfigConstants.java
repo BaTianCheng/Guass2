@@ -16,5 +16,10 @@ public class ConfigConstants {
 	 * 线程监控间隔
 	 */
 	public static final int MONITOR_INTERVAL = 200;
+	
+	/**
+	 * 调用服务配置路径
+	 */
+	public static final String INVOKESERVICE_PATH = "conf/InvokeService.json";
 
 }

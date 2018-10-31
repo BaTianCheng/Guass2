@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.cw.guass2.visitor.entity.InvokeServiceEntity;
 import com.google.common.base.Strings;
 
 /**
@@ -178,7 +179,10 @@ public class RequestEntity implements Serializable{
 	 * 响应头
 	 */
 	private Map<String, String> responseHeaders;
-
+	
+	/******引用属性******/
+	private InvokeServiceEntity invokeServiceEntity;
+	
 	
 	public String getRequestId() {
 		return requestId;
@@ -346,6 +350,14 @@ public class RequestEntity implements Serializable{
 
 	public void setResponseHeaders(Map<String, String> responseHeaders) {
 		this.responseHeaders = responseHeaders;
+	}
+	
+	public InvokeServiceEntity getInvokeServiceEntity() {
+		return invokeServiceEntity;
+	}
+
+	public void setInvokeServiceEntity(InvokeServiceEntity invokeServiceEntity) {
+		this.invokeServiceEntity = invokeServiceEntity;
 	}
 	
 	/**
