@@ -1,0 +1,11 @@
+[
+	{
+		"module": "TEST",
+		"serviceCode": "test",
+		"serviceName": "测试类",
+		"requestType": "API",
+		"mapURL": "com.demo.HelloDemo",
+		"params": ["key"],
+		"paramNames": ["key"]
+	}
+]
