@@ -3,7 +3,7 @@ package com.cw.guass2.dispatch.handler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
+import com.cw.guass2.common.constant.InvokeTypes;
 import com.cw.guass2.common.util.BeanContextUtils;
 import com.cw.guass2.dispatch.entity.RequestEntity;
 import com.cw.guass2.visitor.entity.InvokeServiceEntity;
@@ -17,10 +17,6 @@ import com.cw.guass2.visitor.service.invoke.APIInvokeService;
  */
 public class WorkHandler implements Runnable {
 	
-	InvokeServiceManger invokeServiceManger = BeanContextUtils.getApplicationContext().getBean(InvokeServiceManger.class);
-
-	APIInvokeService apiInvokeService = BeanContextUtils.getApplicationContext().getBean(APIInvokeService.class);
-
 	public static Logger logger = LoggerFactory.getLogger(WorkHandler.class);
 	
 	private RequestEntity requestEntity;
@@ -45,15 +41,15 @@ public class WorkHandler implements Runnable {
 		 * 3）封装结果
 		 * 4）输出结果
 		 */
-		invokeServiceManger.loadInvokeServiceEntities();
+	    InvokeServiceManger invokeServiceManger = BeanContextUtils.getApplicationContext().getBean(InvokeServiceManger.class);
 		InvokeServiceEntity invokeServiceEntity = invokeServiceManger.getInvokeServiceEntity(requestEntity.getServiceCode());
 		requestEntity.setInvokeServiceEntity(invokeServiceEntity);
 		
-		if(invokeServiceEntity.getRequestType().equals("API")) {
+		if(InvokeTypes.API.getCode().equals(invokeServiceEntity.getRequestType())) {
+		    APIInvokeService apiInvokeService = BeanContextUtils.getApplicationContext().getBean(APIInvokeService.class);
 			apiInvokeService.invoke(requestEntity);
 		}
 
-		System.out.println(JSON.toJSON(requestEntity));
 	}
 }
 

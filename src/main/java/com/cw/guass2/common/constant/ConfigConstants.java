@@ -21,5 +21,10 @@ public class ConfigConstants {
 	 * 调用服务配置路径
 	 */
 	public static final String INVOKESERVICE_PATH = "conf/InvokeService.json";
+	
+	/**
+	 * API处理类的调用函数名
+	 */
+	public static final String API_HANDLER_NAME = "HandlerRequest";
 
 }

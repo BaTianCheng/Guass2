@@ -21,10 +21,10 @@ public class InvokeServiceController extends BaseController{
 	
     @RequestMapping(value = "/{serviceCode}")
     public String getService(@PathVariable("serviceCode") String serviceCode){
-    	System.out.println(serviceCode);
     	RequestEntity requestEntity = this.getRequestEntity();
     	requestEntity.setServiceCode(serviceCode);
     	
+    	// 创建新的工人线程，并插入队列
     	WorkHandler handler = new WorkHandler(requestEntity);
     	ThreadQueue.add(handler);
     	

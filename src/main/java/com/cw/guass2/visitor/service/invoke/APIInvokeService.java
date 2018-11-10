@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.cw.guass2.common.constant.ConfigConstants;
+import com.cw.guass2.common.constant.StatusCodes;
 import com.cw.guass2.dispatch.entity.RequestEntity;
 import com.cw.guass2.dispatch.entity.ResponseEntity;
 
@@ -34,7 +36,7 @@ public class APIInvokeService {
 		try {
 			if(null != requestEntity.getInvokeServiceEntity() && null != requestEntity.getInvokeServiceEntity().getMapURL()) {
 				Class<?> clazz = Class.forName(requestEntity.getInvokeServiceEntity().getMapURL());
-				Method method = clazz.getMethod("HandlerRequest", String.class, Map.class);
+				Method method = clazz.getMethod(ConfigConstants.API_HANDLER_NAME, String.class, Map.class);
 				result = (ResponseEntity) method.invoke(clazz.newInstance(), requestEntity.getRequestId(), requestEntity.getParams());
 				requestEntity.setResponseTime(System.currentTimeMillis());
 				
@@ -44,11 +46,11 @@ public class APIInvokeService {
 			}
 			
 			// 执行处理程序成功
-			if(result.getStatus().equals("200")) {
-				requestEntity.setStatus("200");
-				requestEntity.setResult(result.getData());
+			if(result.isSuccessFlag()) {
+			    requestEntity.setStatus(StatusCodes.CODE_SUCCESS.getCode());
+	            requestEntity.setResult(result.getData());
 			} else {
-				requestEntity.setStatus("500");
+				requestEntity.setStatus(StatusCodes.CODE_SERVER_ERROR.getCode());
 				requestEntity.setSubStatus(result.getStatus());
 				requestEntity.setResult(result.getData());
 				requestEntity.setMessage(result.getMessage());
@@ -57,7 +59,7 @@ public class APIInvokeService {
 
 		} catch(Throwable thrown) {
 			requestEntity.setResponseTime(System.currentTimeMillis());
-			requestEntity.setStatus("500");
+			requestEntity.setStatus(StatusCodes.CODE_SERVER_ERROR.getCode());
 			logger.error("API请求发送异常：" + requestEntity.getRequestId(), thrown);
 		}
 		

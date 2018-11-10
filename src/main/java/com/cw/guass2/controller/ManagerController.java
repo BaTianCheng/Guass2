@@ -1,7 +1,6 @@
 package com.cw.guass2.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +23,6 @@ public class ManagerController extends BaseController{
     
     @RequestMapping(value = "/services/list", produces="text/plain;charset=UTF-8")
     public String listServices(){
-    	invokeServiceManger.loadInvokeServiceEntities();
         return JSON.toJSONString(invokeServiceManger.listInvokeServiceEntities());
     }
     

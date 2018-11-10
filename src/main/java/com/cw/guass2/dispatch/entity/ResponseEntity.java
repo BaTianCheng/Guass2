@@ -10,18 +10,28 @@ import java.io.Serializable;
 public class ResponseEntity implements Serializable{
 	
 	private static final long serialVersionUID = -1613298792633626900L;
+	
+	private boolean successFlag = true;
 
 	private String status;
 	
 	private String message;
 	
 	private String data;
+	
+	public boolean isSuccessFlag() {
+        return successFlag;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setSuccessFlag(boolean successFlag) {
+        this.successFlag = successFlag;
+    }
+    
+    public String getStatus() {
+        return status;
+    }
 
-	public void setStatus(String status) {
+    public void setStatus(String status) {
 		this.status = status;
 	}
 
