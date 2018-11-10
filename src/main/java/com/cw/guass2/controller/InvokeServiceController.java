@@ -28,6 +28,13 @@ public class InvokeServiceController extends BaseController{
     	WorkHandler handler = new WorkHandler(requestEntity);
     	ThreadQueue.add(handler);
     	
+    	try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    	
         return JSON.toJSONString(requestEntity);
     }
 

@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.cw.guass2.common.constant.ConfigConstants;
 import com.cw.guass2.common.constant.StatusCodes;
 import com.cw.guass2.dispatch.entity.RequestEntity;
-import com.cw.guass2.dispatch.entity.ResponseEntity;
+import com.cw.guass2.dispatch.entity.InvokeResultEntity;
 
 
 /**
@@ -30,14 +30,16 @@ public class APIInvokeService {
 	 * @return
 	 */
 	public void invoke(RequestEntity requestEntity){
+	    
+	    // TO-DO 各种结果封装
 		
-		ResponseEntity result = new ResponseEntity();
+		InvokeResultEntity result = new InvokeResultEntity();
 		
 		try {
 			if(null != requestEntity.getInvokeServiceEntity() && null != requestEntity.getInvokeServiceEntity().getMapURL()) {
 				Class<?> clazz = Class.forName(requestEntity.getInvokeServiceEntity().getMapURL());
 				Method method = clazz.getMethod(ConfigConstants.API_HANDLER_NAME, String.class, Map.class);
-				result = (ResponseEntity) method.invoke(clazz.newInstance(), requestEntity.getRequestId(), requestEntity.getParams());
+				result = (InvokeResultEntity) method.invoke(clazz.newInstance(), requestEntity.getRequestId(), requestEntity.getParams());
 				requestEntity.setResponseTime(System.currentTimeMillis());
 				
 				// 回收资源
@@ -56,7 +58,7 @@ public class APIInvokeService {
 				requestEntity.setMessage(result.getMessage());
 			}
 			
-
+			
 		} catch(Throwable thrown) {
 			requestEntity.setResponseTime(System.currentTimeMillis());
 			requestEntity.setStatus(StatusCodes.CODE_SERVER_ERROR.getCode());

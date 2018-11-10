@@ -50,14 +50,15 @@
 	<root>
 		<level value="info" />
 		<appender-ref ref="file" />
+		<appender-ref ref="console" />  
 	</root>
 	
 	
 	<logger name="com.esb.guass.job">  
-    <level value="error" />
+    	<level value="error" />
 		<level value="info" />
-    <appender-ref ref="job_file" />  
-    <appender-ref ref="console" />  
+    	<appender-ref ref="job_file" />  
+    	<appender-ref ref="console" />  
 	</logger>
 
 </configuration>  
