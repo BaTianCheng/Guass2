@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
 import com.cw.guass2.common.constant.ConfigConstants;
 import com.cw.guass2.common.constant.StatusCodes;
 import com.cw.guass2.dispatch.entity.RequestEntity;
@@ -50,12 +49,14 @@ public class APIInvokeService {
 			// 执行处理程序成功
 			if(result.isSuccessFlag()) {
 			    requestEntity.setStatus(StatusCodes.CODE_SUCCESS.getCode());
+			    requestEntity.setMessage(StatusCodes.CODE_SUCCESS.getDesc());
 	            requestEntity.setResult(result.getData());
 			} else {
 				requestEntity.setStatus(StatusCodes.CODE_SERVER_ERROR.getCode());
+				requestEntity.setMessage(StatusCodes.CODE_SERVER_ERROR.getDesc());
 				requestEntity.setSubStatus(result.getStatus());
+				requestEntity.setSubMessage(result.getMessage());
 				requestEntity.setResult(result.getData());
-				requestEntity.setMessage(result.getMessage());
 			}
 			
 			
@@ -64,10 +65,6 @@ public class APIInvokeService {
 			requestEntity.setStatus(StatusCodes.CODE_SERVER_ERROR.getCode());
 			logger.error("API请求发送异常：" + requestEntity.getRequestId(), thrown);
 		}
-		
-		logger.info("【请求】"+JSON.toJSONString(requestEntity));
-		logger.info("【响应】"+JSON.toJSONString(result));
-
 	}
 
 }

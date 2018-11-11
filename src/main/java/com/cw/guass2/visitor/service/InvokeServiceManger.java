@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cw.guass2.common.constant.ConfigConstants;
+import com.cw.guass2.common.constant.StatusCodes;
+import com.cw.guass2.dispatch.entity.RequestEntity;
 import com.cw.guass2.visitor.dao.local.LocalInvokeServiceDAO;
 import com.cw.guass2.visitor.entity.InvokeServiceEntity;
 
@@ -61,4 +64,26 @@ public class InvokeServiceManger {
 		return invokeServiceEntitiesMap.get(serviceCode);
 	}
 	
+	/**
+	 * 同步等待结果响应
+	 * @return
+	 */
+	public void syncResult(RequestEntity requestEntity) {
+		long startTime = System.currentTimeMillis();
+		
+		while((System.currentTimeMillis()-startTime) < ConfigConstants.REQUEST_TIMEOUT) {
+			if(StatusCodes.CODE_PRENDING.getCode().equals(requestEntity.getStatus())) {
+				try {
+					Thread.sleep(ConfigConstants.SCAN_INTERVAL);
+				} catch (InterruptedException e) {
+					logger.error(e.getMessage());
+				}
+			} else {
+				return;
+			}
+		}
+		
+		requestEntity.setStatus(StatusCodes.CODE_TIMEOUT_ERROR.getCode());
+		requestEntity.setStatus(StatusCodes.CODE_TIMEOUT_ERROR.getDesc());
+	}
 }

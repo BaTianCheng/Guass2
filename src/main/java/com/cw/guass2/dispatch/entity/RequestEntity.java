@@ -171,6 +171,11 @@ public class RequestEntity implements Serializable{
 	 * 消息信息
 	 */
 	private String message;
+	
+	/**
+	 * 子消息
+	 */
+	private String subMessage;
 
 	/**
 	 * 响应字符集
@@ -336,6 +341,14 @@ public class RequestEntity implements Serializable{
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getSubMessage() {
+		return subMessage;
+	}
+
+	public void setSubMessage(String subMessage) {
+		this.subMessage = subMessage;
 	}
 
 	public String getResponseCharset() {

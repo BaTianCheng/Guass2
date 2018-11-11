@@ -18,6 +18,16 @@ public class ConfigConstants {
 	public static final int MONITOR_INTERVAL = 200;
 	
 	/**
+	 * 请求超时时间
+	 */
+	public static final int REQUEST_TIMEOUT = 60000;
+	
+	/**
+	 * 结果扫描间隔
+	 */
+	public static final int SCAN_INTERVAL = 50;
+	
+	/**
 	 * 调用服务配置路径
 	 */
 	public static final String INVOKESERVICE_PATH = "conf/InvokeService.json";
