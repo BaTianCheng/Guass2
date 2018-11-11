@@ -15,7 +15,7 @@ public class ConfigConstants {
 	/**
 	 * 线程监控间隔
 	 */
-	public static final int MONITOR_INTERVAL = 200;
+	public static final int MONITOR_INTERVAL = 20;
 	
 	/**
 	 * 请求超时时间
@@ -25,7 +25,7 @@ public class ConfigConstants {
 	/**
 	 * 结果扫描间隔
 	 */
-	public static final int SCAN_INTERVAL = 50;
+	public static final int SCAN_INTERVAL = 10;
 	
 	/**
 	 * 调用服务配置路径
