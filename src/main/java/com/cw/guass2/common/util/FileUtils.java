@@ -41,7 +41,13 @@ public class FileUtils {
 	public static String read(String path) throws IOException {
 		ClassLoader classLoader = FileUtils.class.getClassLoader();
 		URL resource = classLoader.getResource(path);
-		File file = new File(resource.getPath());
+		File file;
+		if(resource == null) {
+		   file = new File(System.getProperty("user.dir") + "\\" + path);
+		} else {
+		   file = new File(resource.getPath());
+		}
+		
 		FileInputStream fIP = new FileInputStream(file);
 		BufferedInputStream input = new BufferedInputStream(fIP, 2*1024);
 		byte[] byteArray=new byte[1024];

@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.cw.guass2.visitor.entity.InvokeServiceEntity;
 import com.google.common.base.Strings;
@@ -403,5 +404,10 @@ public class RequestEntity implements Serializable{
 		}
 		return sb.toString();
 	}
+	
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
 }

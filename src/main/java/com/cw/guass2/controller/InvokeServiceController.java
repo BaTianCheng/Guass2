@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.cw.guass2.controller.base.BaseController;
 import com.cw.guass2.dispatch.entity.RequestEntity;
-import com.cw.guass2.dispatch.entity.ResponseEntity;
 import com.cw.guass2.dispatch.handler.WorkHandler;
 import com.cw.guass2.dispatch.thread.service.ThreadQueue;
 import com.cw.guass2.visitor.service.InvokeServiceManger;
@@ -30,11 +28,11 @@ public class InvokeServiceController extends BaseController{
 	InvokeServiceManger invokeServiceManger;
 	
     @RequestMapping(value = "/{serviceCode}")
-    public ResponseEntity getService(@PathVariable("serviceCode") String serviceCode){
+    public String getService(@PathVariable("serviceCode") String serviceCode){
     	RequestEntity requestEntity = this.getRequestEntity();
     	requestEntity.setServiceCode(serviceCode);
     	
-    	logger.info("【接收请求】"+JSON.toJSONString(requestEntity));
+    	logger.info("【接收请求】" + requestEntity.toString());
     	
     	// 创建新的工人线程，并插入队列
     	WorkHandler handler = new WorkHandler(requestEntity);
@@ -52,9 +50,9 @@ public class InvokeServiceController extends BaseController{
     			getResponse(requestEntity);
     		}
     	}
-    	logger.info("【响应请求】"+JSON.toJSONString(this.responseEntity));
+    	logger.info("【响应请求】" + this.responseEntity.toString());
     	
-    	return responseEntity;
+    	return this.responseEntity.toString();
     }
 
 }
