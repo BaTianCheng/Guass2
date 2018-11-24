@@ -16,11 +16,9 @@ import com.cw.guass2.visitor.service.InvokeServiceManger;
 @SpringBootApplication
 public class App 
 {
-    public static void start() 
+    public static void deploy() 
     {
-        // 开启spring boot主程序
-        SpringApplication.run(App.class);
-        
+
         // 默认首次加载所有服务定义
         InvokeServiceManger invokeServiceManger = BeanContextUtils.getApplicationContext().getBean(InvokeServiceManger.class);
         invokeServiceManger.loadInvokeServiceEntities();
@@ -32,6 +30,9 @@ public class App
     
     public static void main(String[] args)
     {
-        start();
+        // 开启spring boot主程序
+        SpringApplication.run(App.class);
+        
+        deploy();
     }
 }

@@ -1,9 +1,7 @@
 package com.cw.guass2.common.base;
 
-import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
 import com.cw.guass2.dispatch.entity.InvokeResultEntity;
+import com.cw.guass2.dispatch.entity.ParamEntity;
 
 /**
  * 服务处理接口————API接口调用需要实现
@@ -12,7 +10,7 @@ import com.cw.guass2.dispatch.entity.InvokeResultEntity;
  */
 public abstract class BaseServiceHandler {
 	
-	public abstract InvokeResultEntity HandlerRequest(String questId, Map<String, String> params);
+	public abstract InvokeResultEntity HandlerRequest(String questId, ParamEntity params);
 	
 	/**
 	 * 构建成功结果
@@ -20,14 +18,7 @@ public abstract class BaseServiceHandler {
 	 */
 	public InvokeResultEntity buidSucessResult(Object data) {
 		InvokeResultEntity invokeResultEntity = new InvokeResultEntity();
-		if(data != null) {
-			if(data.getClass().equals(String.class)) {
-				invokeResultEntity.setData((String)data);
-			} else {
-				invokeResultEntity.setData(JSON.toJSONString(data));
-			}
-		}
-		
+		invokeResultEntity.setData(data);
 		return invokeResultEntity;
 	}
 	
@@ -40,7 +31,7 @@ public abstract class BaseServiceHandler {
 		invokeResultEntity.setSuccessFlag(false);
 		invokeResultEntity.setStatus(statusCode);
 		invokeResultEntity.setMessage(message);
-		invokeResultEntity.setData(JSON.toJSONString(data));
+		invokeResultEntity.setData(data);
 		return invokeResultEntity;
 	}
 

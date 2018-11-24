@@ -72,7 +72,7 @@ public class InvokeServiceManger {
 		long startTime = System.currentTimeMillis();
 		
 		while((System.currentTimeMillis()-startTime) < ConfigConstants.REQUEST_TIMEOUT) {
-			if(StatusCodes.CODE_PRENDING.getCode().equals(requestEntity.getStatus())) {
+			if(StatusCodes.CODE_PRENDING.getCode().equals(requestEntity.getStatusCode())) {
 				try {
 					Thread.sleep(ConfigConstants.SCAN_INTERVAL);
 				} catch (InterruptedException e) {
@@ -83,7 +83,7 @@ public class InvokeServiceManger {
 			}
 		}
 		
-		requestEntity.setStatus(StatusCodes.CODE_TIMEOUT_ERROR.getCode());
-		requestEntity.setStatus(StatusCodes.CODE_TIMEOUT_ERROR.getDesc());
+		requestEntity.setStatusCode(StatusCodes.CODE_TIMEOUT_ERROR.getCode());
+		requestEntity.setStatusCode(StatusCodes.CODE_TIMEOUT_ERROR.getDesc());
 	}
 }

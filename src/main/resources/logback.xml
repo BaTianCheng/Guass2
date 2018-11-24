@@ -1,6 +1,6 @@
 <configuration>
 
-	<property name="APP_HOME" value="D:/GUASS2" />   
+	<property name="APP_HOME" value="logs" />   
 
 	<!-- ch.qos.logback.core.ConsoleAppender 控制台输出 -->
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -12,7 +12,7 @@
 
 	<!-- 各类基本日志输出 -->
 	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${APP_HOME}/logs/common/log.log</File>
+		<File>${APP_HOME}/common/log.log</File>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<FileNamePattern>${APP_HOME}/logs/common/log-%d{yyyy-MM-dd}.%i.log
 			</FileNamePattern>
@@ -30,7 +30,7 @@
 	
 	<!-- 实时任务日志输出 -->
 	<appender name="job_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${APP_HOME}/logs/jobs/log.log</File>
+		<File>${APP_HOME}/jobs/log.log</File>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<FileNamePattern>${APP_HOME}/logs/jobs/log-%d{yyyy-MM-dd}.%i.log
 			</FileNamePattern>
@@ -52,13 +52,5 @@
 		<appender-ref ref="file" />
 		<appender-ref ref="console" />  
 	</root>
-	
-	
-	<logger name="com.esb.guass.job">  
-    	<level value="error" />
-		<level value="info" />
-    	<appender-ref ref="job_file" />  
-    	<appender-ref ref="console" />  
-	</logger>
 
 </configuration>  

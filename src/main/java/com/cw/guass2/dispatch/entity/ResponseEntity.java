@@ -15,7 +15,7 @@ public class ResponseEntity implements Serializable{
 
 	private String requestId;
 	
-	private String status;
+	private String statusCode;
 	
 	private String message;
 	
@@ -23,13 +23,13 @@ public class ResponseEntity implements Serializable{
 	
 	private String subMessage;
 	
-	private String data;
+	private Object data;
 	
 	private long costTime;
 	
 	public ResponseEntity(RequestEntity requestEntity) {
 		this.requestId = requestEntity.getRequestId();
-		this.status = requestEntity.getStatus();
+		this.statusCode = requestEntity.getStatusCode();
 		this.message = requestEntity.getMessage();
 		this.subStatus = requestEntity.getSubStatus();
 		this.subMessage = requestEntity.getSubMessage();
@@ -45,12 +45,12 @@ public class ResponseEntity implements Serializable{
 		this.requestId = requestId;
 	}
 
-	public String getStatus() {
-        return status;
+	public String getStatusCode() {
+        return statusCode;
     }
 
-    public void setStatus(String status) {
-		this.status = status;
+    public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
 
 	public String getMessage() {
@@ -77,11 +77,11 @@ public class ResponseEntity implements Serializable{
 		this.subMessage = subMessage;
 	}
 
-	public String getData() {
+	public Object getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 

@@ -31,7 +31,7 @@ public class RequestEntity implements Serializable{
 		
 		requestId = UUID.randomUUID().toString();
 		requestTime = System.currentTimeMillis();
-		status = "100";
+		statusCode = "100";
 		requestMethod = request.getMethod();
 		url =  request.getRequestURI();
 		params = request.getParameterMap();
@@ -94,7 +94,7 @@ public class RequestEntity implements Serializable{
 	/**
 	 * 状态
 	 */
-	private String status;
+	private String statusCode;
 	
 	/**
 	 * 子状态
@@ -166,7 +166,7 @@ public class RequestEntity implements Serializable{
 	/**
 	 * 结果字符串
 	 */
-	private String result;
+	private Object result;
 	
 	/**
 	 * 消息信息
@@ -224,12 +224,12 @@ public class RequestEntity implements Serializable{
 		this.responseTime = responseTime;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getStatusCode() {
+		return statusCode;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
 	}
 
 	public String getSubStatus() {
@@ -328,11 +328,11 @@ public class RequestEntity implements Serializable{
 		this.directReturn = directReturn;
 	}
 
-	public String getResult() {
+	public Object getResult() {
 		return result;
 	}
 
-	public void setResult(String result) {
+	public void setResult(Object result) {
 		this.result = result;
 	}
 

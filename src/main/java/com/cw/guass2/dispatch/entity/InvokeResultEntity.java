@@ -17,7 +17,7 @@ public class InvokeResultEntity implements Serializable{
 	
 	private String message;
 	
-	private String data;
+	private Object data;
 	
 	public boolean isSuccessFlag() {
         return successFlag;
@@ -43,11 +43,11 @@ public class InvokeResultEntity implements Serializable{
 		this.message = message;
 	}
 
-	public String getData() {
+	public Object getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 

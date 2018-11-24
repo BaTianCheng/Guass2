@@ -43,7 +43,7 @@ public class FileUtils {
 		URL resource = classLoader.getResource(path);
 		File file;
 		if(resource == null) {
-		   file = new File(System.getProperty("user.dir") + "\\" + path);
+		   file = new File(System.getProperty("user.dir") + "/" + path);
 		} else {
 		   file = new File(resource.getPath());
 		}
