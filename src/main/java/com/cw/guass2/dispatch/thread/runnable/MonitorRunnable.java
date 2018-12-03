@@ -2,16 +2,17 @@ package com.cw.guass2.dispatch.thread.runnable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.cw.guass2.common.constant.ConfigConstants;
 import com.cw.guass2.dispatch.thread.service.ThreadPoolService;
 import com.cw.guass2.dispatch.thread.service.ThreadQueue;
 
-
 /**
  * 线程池监视器
  * @author wicks
  */
+@Component
 public class MonitorRunnable implements Runnable {
 	
 	public static Logger logger = LoggerFactory.getLogger(MonitorRunnable.class);

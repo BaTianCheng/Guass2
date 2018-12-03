@@ -2,6 +2,7 @@ package com.cw.guass2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import com.cw.guass2.common.util.BeanContextUtils;
 import com.cw.guass2.dispatch.thread.runnable.MonitorRunnable;
@@ -14,6 +15,7 @@ import com.cw.guass2.visitor.service.InvokeServiceManger;
  *
  */
 @SpringBootApplication
+@ComponentScan(basePackages="com")
 public class App 
 {
     public static void deploy() 
@@ -24,7 +26,8 @@ public class App
         invokeServiceManger.loadInvokeServiceEntities();
         
         // 开启监控线程，处理线程池任务
-        MonitorRunnable monitorRunnable = new MonitorRunnable();
+        
+        MonitorRunnable monitorRunnable = BeanContextUtils.getBean(MonitorRunnable.class);
         monitorRunnable.run();
     }
     

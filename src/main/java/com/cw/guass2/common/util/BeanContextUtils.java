@@ -31,4 +31,8 @@ public class BeanContextUtils implements ApplicationContextAware {
 	public static <T> T getBean(Class<T> clz) throws BeansException {
 		return (T) applicationContext.getBean(clz);
 	}
+	
+	public boolean containsBean(String name) {
+	    return applicationContext.containsBean(name);
+	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cw.guass2.common.constant.ConfigConstants;
 import com.cw.guass2.common.constant.StatusCodes;
+import com.cw.guass2.common.util.BeanContextUtils;
 import com.cw.guass2.dispatch.entity.RequestEntity;
 import com.cw.guass2.dispatch.entity.InvokeResultEntity;
 import com.cw.guass2.dispatch.entity.ParamEntity;
@@ -36,10 +37,21 @@ public class APIInvokeService {
 		
 		try {
 			if(null != requestEntity.getInvokeServiceEntity() && null != requestEntity.getInvokeServiceEntity().getMapURL()) {
-				Class<?> clazz = Class.forName(requestEntity.getInvokeServiceEntity().getMapURL());
-				Method method = clazz.getMethod(ConfigConstants.API_HANDLER_NAME, String.class, ParamEntity.class);
-				result = (InvokeResultEntity) method.invoke(clazz.newInstance(), requestEntity.getRequestId(), new ParamEntity(requestEntity.getParams()));
-				requestEntity.setResponseTime(System.currentTimeMillis());
+			    String mapURL = requestEntity.getInvokeServiceEntity().getMapURL();
+			    Class<?> clazz;
+			    Method method;
+			    
+			    if(BeanContextUtils.getApplicationContext().containsBean(mapURL)) {
+			        clazz = BeanContextUtils.getBean(requestEntity.getInvokeServiceEntity().getMapURL()).getClass();
+	                method = clazz.getDeclaredMethod(ConfigConstants.API_HANDLER_NAME,String.class, ParamEntity.class);
+	                result = (InvokeResultEntity) method.invoke(BeanContextUtils.getBean(mapURL), requestEntity.getRequestId(), new ParamEntity(requestEntity));
+			    } else {
+			        clazz = Class.forName(requestEntity.getInvokeServiceEntity().getMapURL());
+	                method = clazz.getDeclaredMethod(ConfigConstants.API_HANDLER_NAME,String.class, ParamEntity.class);
+	                result = (InvokeResultEntity) method.invoke(clazz.newInstance(), requestEntity.getRequestId(), new ParamEntity(requestEntity));
+			    }
+			    
+			    requestEntity.setResponseTime(System.currentTimeMillis());
 				
 				// 回收资源
 				clazz = null;

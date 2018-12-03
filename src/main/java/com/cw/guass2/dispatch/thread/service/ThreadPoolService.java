@@ -4,6 +4,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import org.springframework.stereotype.Component;
+
 import com.cw.guass2.common.constant.ConfigConstants;
 
 /**
@@ -11,6 +13,7 @@ import com.cw.guass2.common.constant.ConfigConstants;
  * 
  * @author wicks
  */
+@Component
 public class ThreadPoolService {
 
 	private static ExecutorService fixedThreadPool;
