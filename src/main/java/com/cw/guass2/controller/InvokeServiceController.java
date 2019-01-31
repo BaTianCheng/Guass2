@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cw.guass2.common.constant.StatusCodes;
 import com.cw.guass2.controller.base.BaseController;
 import com.cw.guass2.dispatch.entity.RequestEntity;
 import com.cw.guass2.dispatch.handler.WorkHandler;
@@ -38,7 +39,7 @@ public class InvokeServiceController extends BaseController{
      */
     @RequestMapping(value = "/{serviceCode}")
     public String invokeService(@PathVariable("serviceCode") String serviceCode){
-    	RequestEntity requestEntity = this.getRequestEntity();
+    	RequestEntity requestEntity = this.buildRequestEntity();
     	requestEntity.setServiceCode(serviceCode);
     	
     	logger.info("【接收请求】" + requestEntity.toString());
@@ -50,18 +51,19 @@ public class InvokeServiceController extends BaseController{
     	// 判断同步异步方式，并返回响应
     	try {
         	if(requestEntity.isAsync()) {
-        		getDircetResponse(requestEntity);
+        	    buildDircetResponse(requestEntity);
         	} else {
         		if(requestEntity.isDirectReturn()) {
-        			getDircetResponse(result.get());
+        		    buildDircetResponse(result.get());
         		}
         		else {
-        			getResponse(result.get());
+        		    buildResponse(result.get());
         		}
         	}
     	}
-    	catch (Exception e) {
-    	    logger.info("【异常】");
+    	catch (Exception ex) {
+    	    logger.error("【处理异常】", ex);
+    	    buildErrorResponse(requestEntity, StatusCodes.CODE_SERVER_ERROR);
         }
     	
     	logger.info("【响应请求】" + this.responseEntity.toString());
