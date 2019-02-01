@@ -70,6 +70,11 @@
 	  <version>17.0</version>
 	</dependency>
 	
+	<dependency>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+    </dependency>
+	
 	<!-- 日志组件 -->
 	<dependency>
 	    <groupId>org.slf4j</groupId>

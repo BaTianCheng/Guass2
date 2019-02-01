@@ -5,7 +5,9 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cw.guass2.common.cache.RequestCache;
 import com.cw.guass2.common.constant.InvokeTypes;
+import com.cw.guass2.common.constant.StatusCodes;
 import com.cw.guass2.common.util.BeanContextUtils;
 import com.cw.guass2.dispatch.entity.RequestEntity;
 import com.cw.guass2.visitor.entity.InvokeServiceEntity;
@@ -40,17 +42,29 @@ public class WorkHandler implements Callable<RequestEntity> {
 	 */
 	@Override
 	public RequestEntity call() {
-	    InvokeServiceManger invokeServiceManger = BeanContextUtils.getApplicationContext().getBean(InvokeServiceManger.class);
-		InvokeServiceEntity invokeServiceEntity = invokeServiceManger.getInvokeServiceEntity(requestEntity.getServiceCode());
-		requestEntity.setInvokeServiceEntity(invokeServiceEntity);
+	    try {
+    	    InvokeServiceManger invokeServiceManger = BeanContextUtils.getApplicationContext().getBean(InvokeServiceManger.class);
+    		InvokeServiceEntity invokeServiceEntity = invokeServiceManger.getInvokeServiceEntity(requestEntity.getServiceCode());
+    		requestEntity.setInvokeServiceEntity(invokeServiceEntity);
+    		
+    		// API调用方式
+    		if(InvokeTypes.API.getCode().equals(invokeServiceEntity.getRequestType())) {
+    		    APIInvokeService apiInvokeService = BeanContextUtils.getApplicationContext().getBean(APIInvokeService.class);
+    			apiInvokeService.invoke(requestEntity);
+    		}
+    		
+    		// 异步请求记录结果
+    		if(requestEntity.isAsync()) {
+    		        RequestCache requestCache = BeanContextUtils.getApplicationContext().getBean(RequestCache.class);
+    		        requestCache.save(requestEntity);
+    		}
+	    }
+	    catch (Exception ex) {
+	        requestEntity.setStatusCode(StatusCodes.CODE_SERVER_ERROR.getCode());
+	        requestEntity.setMessage(StatusCodes.CODE_SERVER_ERROR.getDesc());
+	        logger.error("【服务执行失败】", ex);
+        }
 		
-		if(InvokeTypes.API.getCode().equals(invokeServiceEntity.getRequestType())) {
-		    APIInvokeService apiInvokeService = BeanContextUtils.getApplicationContext().getBean(APIInvokeService.class);
-			apiInvokeService.invoke(requestEntity);
-		}
-		
-		// 此处应记录缓存
-
 		return requestEntity;
 	}
 }

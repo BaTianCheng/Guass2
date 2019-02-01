@@ -51,6 +51,9 @@ public class InvokeServiceController extends BaseController{
     	// 判断同步异步方式，并返回响应
     	try {
         	if(requestEntity.isAsync()) {
+                requestEntity.setStatusCode(StatusCodes.CODE_SUCCESS.getCode());
+                requestEntity.setMessage(StatusCodes.CODE_SUCCESS.getDesc());
+                requestEntity.setResponseTime(System.currentTimeMillis());
         	    buildDircetResponse(requestEntity);
         	} else {
         		if(requestEntity.isDirectReturn()) {
