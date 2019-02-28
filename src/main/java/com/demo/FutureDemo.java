@@ -6,6 +6,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Future线程样例
+ * @author wicks
+ *
+ */
 public class FutureDemo {
 
     public static void main(String[] args) {
