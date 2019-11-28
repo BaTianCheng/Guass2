@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: service-test
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+    
+server:
+   port: 19001
+   tomcat:
+     uri-encoding: UTF-8
+
+management:
+  security: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always 
+
+eureka:
+   instance:
+      prefer-ip-address: true
+   client:
+       serviceUrl:
+           defaultZone: http://localhost:18761/eureka/
