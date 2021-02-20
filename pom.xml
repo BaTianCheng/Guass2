@@ -93,6 +93,12 @@
 	    <artifactId>logback-classic</artifactId>
 	</dependency>
 	
+	<dependency>
+	    <groupId>cn.hutool</groupId>
+	    <artifactId>hutool-all</artifactId>
+	    <version>5.4.0</version>
+	</dependency>
+	
   </dependencies>
   
   <dependencyManagement>
